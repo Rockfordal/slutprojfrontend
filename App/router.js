@@ -12,7 +12,16 @@
          LastName: "Larsson"
       } ];
 
-    angular.module("app").config(function($stateProvider) {
+    var sampleClassUnits =
+    [ {  Id: 1, 
+         Name: "Klass 1A", 
+      },
+      {  Id: 2, 
+         Name: "Klass 1B", 
+      } ];
+
+    angular.module("app")
+    .config(function($stateProvider) {
         var studentState = {
             name: 'students',
             url: '/students',
@@ -22,12 +31,29 @@
                     return sampleStudents;
                 }
             }
-    }
+        }
+        var classUnitState = {
+            name: 'classunits',
+            url: '/classunits',
+            component: 'classUnitIndex',
+            resolve: {
+                classunits: function() {
+                    return sampleClassUnits;
+                }
+            }
+        }
+        var loginState = {
+            name: 'login',
+            url: '/login',
+            component: 'loginIndex',
+        }
     //  student: function(Student) {
     //      return Student.query();
     //  }
 
     $stateProvider.state(studentState);
+    $stateProvider.state(classUnitState);
+    $stateProvider.state(loginState);
     }); 
 
 })();
