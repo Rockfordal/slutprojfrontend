@@ -3,12 +3,15 @@
 
     angular.module('app').component('menuBar', {
         bindings: {
-            // students: '<'
-            // studygroups: '<'
+            menus: '<'
         },
         templateUrl: '/App/navbar/index.html',
         controllerAs: 'model',
-        controller: function() {
+        controller: function(Identity) {
+            this.currentUser = Identity.currentUser;
+            this.identity = Identity;
+            Identity.getData();
+
             this.menus = [
                 // {
                 //     name: "Hem",
@@ -20,11 +23,22 @@
                 },
                 {
                     name:  "Klasser",
-                    state: "classunits"
+                    state: "classunits",
                 },
                 {
-                    name:  "Login",
-                    state: "login"
+                    name:  "Logga in",
+                    state: "login",
+                    hide: (this.identity.userName != null)
+                },
+                {
+                    name:  "Logga ut",
+                    state: "logout",
+                    hide: (this.identity.userName == null)
+                },
+                {
+                    name:  "Registrera",
+                    state: "register",
+                    hide: (this.identity.userName != null)
                 }
             ];
         }

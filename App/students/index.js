@@ -1,7 +1,8 @@
 (function () {
-"use strict"
+    "use strict"
 
-angular.module("app").component("studentIndex", {
+angular.module("app")
+  .component("studentIndex", {
     templateUrl: "/App/students/index.html",
     bindings: { students: '<' },
     controllerAs: "model",

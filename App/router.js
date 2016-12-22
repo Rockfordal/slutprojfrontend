@@ -47,13 +47,23 @@
             url: '/login',
             component: 'loginIndex',
         }
-    //  student: function(Student) {
-    //      return Student.query();
-    //  }
+        var logoutState = {
+            name: 'logout',
+            url: '/logout',
+            component: 'logoutIndex',
+        }
+        var registerState = {
+            name: 'register',
+            url: '/register',
+            component: 'registerIndex',
+        }
+
+    $stateProvider.state(loginState);
+    $stateProvider.state(logoutState);
+    $stateProvider.state(registerState);
 
     $stateProvider.state(studentState);
     $stateProvider.state(classUnitState);
-    $stateProvider.state(loginState);
     }); 
 
 })();

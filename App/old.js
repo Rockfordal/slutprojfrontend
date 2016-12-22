@@ -141,7 +141,6 @@ app.controller('emplcontroller', function ($scope, empservice) {
         });
     };
     $scope.logout = function () {
-
         sessionStorage.removeItem('accessToken');
         window.location.href = '/Login/SecurityInfo';
     };

@@ -1,8 +1,8 @@
-var serverurl = "";
+var serverurl = "http://localhost:40000";
 
 angular.module("app.data", ["ngResource"])
     .config(function ($httpProvider) {
-        $httpProvider.defaults.useXDomain = true;
+        // $httpProvider.defaults.useXDomain = true;
     })
     .factory("ClassUnit", function ($resource) {
         return $resource(
@@ -20,25 +20,71 @@ angular.module("app.data", ["ngResource"])
             }
         );
     })
-    .service('loginservice', function ($http) {
-        this.register = function (userInfo) {
+    .factory('Identity', function($state) {
+        var svc = {
+            userName: null,
+            currentUser: "Not Logged In",
+            authHeaders: {},
+            getData: function() {
+                this.setUserName(sessionStorage.getItem('userName'));
+                var accesstoken = sessionStorage.getItem('accessToken');
+                if (accesstoken) {
+                    this.authHeaders.Authorization = 'Bearer ' + accesstoken;
+                }
+            },
+            setData: function(data){
+                sessionStorage.setItem('userName',     data.userName);
+                sessionStorage.setItem('accessToken',  data.access_token);
+                sessionStorage.setItem('refreshToken', data.refresh_token);
+                this.setUserName(data.userName);
+                $state.reload();
+                $state.go('students');
+            },
+            setUserName: function(n) {
+                this.userName = n;
+                if (n) {
+                    this.currentUser = n
+                } else {
+                    this.currentUser = "Not logged in";
+                }
+            },
+            Logout: function() {
+                sessionStorage.removeItem('userName');
+                sessionStorage.removeItem('accessToken');
+                sessionStorage.removeItem('refreshToken');
+                this.setUserName(null);
+                // $state.reload();
+                // $state.go('login');
+                // $state.go($state.current, {}, {reload: true});
+            }
+        }
+        return svc;
+    })
+    .service('loginService', function ($http) {
+        this.register = function (userInfo, Identity) {
+           $http.defaults.useXDomain = true;
+           console.log("userinfo:", userInfo);
             var resp = $http({
-                url: "/api/Account/Register",
+                url: serverurl + "/api/Account/Register",
                 method: "POST",
-                data: userInfo
+                data: userInfo,
+                // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                // headers: {'Content-Type': 'application/json'}
             });
             return resp;
         };
 
         this.login = function (userlogin) {
+           $http.defaults.useXDomain = true;
             var resp = $http({
-                url: "/TOKEN",
+                url: serverurl + "/TOKEN",
                 method: "POST",
                 data: $.param({
                     grant_type: 'password',
                     username: userlogin.username, password: userlogin.password
                 }),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                // headers: {'Content-Type': 'application/json'}
             });
             return resp;
         };
@@ -54,7 +100,7 @@ angular.module("app.data", ["ngResource"])
             }
 
             var response = $http({
-                url: "/api/EmployeeAPI",
+                url: serverurl + "/api/EmployeeAPI",
                 method: "GET",
                 headers: authHeaders
             });
