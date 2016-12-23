@@ -25,21 +25,6 @@
                     name:  "Klasser",
                     state: "classunits",
                 },
-                {
-                    name:  "Logga in",
-                    state: "login",
-                    hide: (this.identity.userName != null)
-                },
-                {
-                    name:  "Logga ut",
-                    state: "logout",
-                    hide: (this.identity.userName == null)
-                },
-                {
-                    name:  "Registrera",
-                    state: "register",
-                    hide: (this.identity.userName != null)
-                }
             ];
         }
     });

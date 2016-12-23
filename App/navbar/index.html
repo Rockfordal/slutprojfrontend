@@ -11,10 +11,13 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ng-repeat="menu in model.menus">
-                  <a ui-sref="{{menu.state}}" ui-sref-active="active" ng-hide="{{menu.hide}}">{{menu.name}}</a>
+                  <a ui-sref="{{menu.state}}" ui-sref-active="active">{{menu.name}}</a>
                 </li>
-                <!--<li><a ui-sref="register" ng-hide="model.identity.userName" ui-sref-active="active">Registrera</a></li>-->
-                <!--<li><a ui-sref="{{model.access.state}}" ui-sref-active="active">{{model.access.name}}</a></li>-->
+                <li ng-show="model.identity.userName">
+                    <a ui-sref="logout" ui-sref-active="active">Logga ut</a>
+                </li>
+                <li><a ui-sref="login" ng-hide="model.identity.userName" ui-sref-active="active">Logga in</a></li>
+                <li><a ui-sref="register" ng-hide="model.identity.userName" ui-sref-active="active">Registrera</a></li>
             </ul>
         </div>
     </div>
