@@ -1,2 +1,2 @@
 #lodash category=array
-lodash include=remove
+lodash include=remove,find
