@@ -12,8 +12,12 @@ angular.module("app")
     templateUrl: "/App/classunits/index.html",
     bindings: { classunits: '<' },
     controllerAs: "model",
-    controller: function (ClassUnit, Common) {
+    controller: function (ClassUnit, Common, $rootScope) {
         var vm = this;
+
+        $rootScope.$on("logout", function(){
+            vm.classunits= [];
+        });
 
         this.add = function () {
             var newclassUnit = new ClassUnit(vm.ClassUnit);
@@ -36,6 +40,13 @@ angular.module("app")
                 classunit.ClassName = vm.ClassUnit.ClassName;
                 vm.clear();
             });
+        }
+        this.submit = function() {
+            if (vm.editing) {
+                vm.update();
+            } else {
+                vm.add();
+            }
         }
         this.clear = function () {
             vm.ClassUnit = new ClassUnit();

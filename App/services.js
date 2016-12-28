@@ -1,18 +1,41 @@
-// var serverurl = "http://localhost:40000";
-var serverurl = "http://46.162.127.27:40000";
+var serverurl = "http://localhost:40000";
+
+var getActions = function (headers) {
+    return {
+        'get': { method: 'GET', headers: headers },
+        'save': { method: 'POST', headers: headers },
+        'create': { method: 'POST', headers: headers },
+        'query': { method: 'GET', isArray: true, headers: headers },
+        'remove': { method: 'DELETE', headers: headers },
+        'delete': { method: 'DELETE', headers: headers },
+        'update': { method: 'PUT', headers: headers }
+    };
+}
 
 angular.module("app.data", ["ngResource"])
     .config(function ($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
     })
     .factory("ClassUnit", function ($resource) {
-        return $resource(
-            serverurl + "/api/classunits/:Id",
-            { Id: "@ClassUnitID" },
-            { update: { method: "PUT" },
-            }
-        );
+        // var headers = { 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') };
+        // var actions = getActions(headers);
+
+        return $resource(serverurl + '/api/classunits/:Id',
+             { Id: '@ClassUnitID' },
+             getActions({ 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') }));
+            //  actions);
     })
+    // .factory("ClassUnit", function ($resource) {
+    //     return $resource(
+    //         serverurl + "/api/classunits/:Id",
+    //         { Id: "@ClassUnitID" },
+    //         {
+    //             update: { method: "PUT" },
+    //             query: { method: 'GET', isArray: true, cancellable: true },
+    //             get: { method: 'GET', isArray: true, cancellable: true }
+    //         }
+    //     );
+    // })
     .factory("Student", function ($resource) {
         return $resource(
             serverurl + "/api/students/:Id",
@@ -21,7 +44,7 @@ angular.module("app.data", ["ngResource"])
             }
         );
     })
-    .factory('Identity', function($state) {
+    .factory('Identity', function($state, $rootScope) {
         var svc = {
             userName: null,
             currentUser: "Not Logged In",
@@ -54,6 +77,7 @@ angular.module("app.data", ["ngResource"])
                 sessionStorage.removeItem('accessToken');
                 sessionStorage.removeItem('refreshToken');
                 this.setUserName(null);
+                $rootScope.$emit("logout");
                 // $state.reload();
                 // $state.go('login');
                 // $state.go($state.current, {}, {reload: true});
@@ -90,24 +114,24 @@ angular.module("app.data", ["ngResource"])
             return resp;
         };
     })
-    .service('empservice', function ($http) {
-        this.get = function () {
+    // .service('empservice', function ($http) {
+    //     this.get = function () {
 
-            var accesstoken = sessionStorage.getItem('accessToken');
+    //         var accesstoken = sessionStorage.getItem('accessToken');
 
-            var authHeaders = {};
-            if (accesstoken) {
-                authHeaders.Authorization = 'Bearer ' + accesstoken;
-            }
+    //         var authHeaders = {};
+    //         if (accesstoken) {
+    //             authHeaders.Authorization = 'Bearer ' + accesstoken;
+    //         }
 
-            var response = $http({
-                url: serverurl + "/api/EmployeeAPI",
-                method: "GET",
-                headers: authHeaders
-            });
-            return response;
-        };
-    })
+    //         var response = $http({
+    //             url: serverurl + "/api/EmployeeAPI",
+    //             method: "GET",
+    //             headers: authHeaders
+    //         });
+    //         return response;
+    //     };
+    // })
 
 // create: { method: "POST" },
 // create: { method: "POST", isArray: true },

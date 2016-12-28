@@ -14,13 +14,6 @@ angular.module("app")
     $scope.userLoginEmail = "";
     $scope.userLoginPassword = "";
 
-    // $scope.accessToken = "";
-    // $scope.refreshToken = "";
-
-    // $scope.redirect = function () {
-    //     window.location.href = '/ejsan124/Index';
-    // };
-
     //Function to Login. This will generate Token 
     $scope.login = function () {
 
