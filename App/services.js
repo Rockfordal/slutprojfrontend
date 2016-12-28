@@ -1,13 +1,14 @@
-var serverurl = "http://localhost:40000";
+// var serverurl = "http://localhost:40000";
+var serverurl = "http://46.162.127.27:40000";
 
 angular.module("app.data", ["ngResource"])
     .config(function ($httpProvider) {
-        // $httpProvider.defaults.useXDomain = true;
+        $httpProvider.defaults.useXDomain = true;
     })
     .factory("ClassUnit", function ($resource) {
         return $resource(
             serverurl + "/api/classunits/:Id",
-            { Id: "@Id" },
+            { Id: "@ClassUnitID" },
             { update: { method: "PUT" },
             }
         );
