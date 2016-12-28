@@ -37,8 +37,9 @@
             url: '/classunits',
             component: 'classUnitIndex',
             resolve: {
-                classunits: function() {
-                    return sampleClassUnits;
+                classunits: function(ClassUnit) {
+                    return ClassUnit.query();
+                    // return sampleClassUnits;
                 }
             }
         }
