@@ -29,6 +29,7 @@
             resolve: {
                 students: function() {
                     return sampleStudents;
+                    // return ClassUnit.query();
                 }
             }
         }
