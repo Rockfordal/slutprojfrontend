@@ -1,14 +1,15 @@
 var serverurl = "http://localhost:40000";
 
-var getActions = function (headers) {
+var getActions = function () {
+    var headers = { 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') };
     return {
-        'get': { method: 'GET', headers: headers },
-        'save': { method: 'POST', headers: headers },
-        'create': { method: 'POST', headers: headers },
-        'query': { method: 'GET', isArray: true, headers: headers },
+        'get':    { method: 'GET',    headers: headers },
+        'save':   { method: 'POST',   headers: headers },
+        'create': { method: 'POST',   headers: headers },
+        'query':  { method: 'GET',    headers: headers, isArray: true },
         'remove': { method: 'DELETE', headers: headers },
         'delete': { method: 'DELETE', headers: headers },
-        'update': { method: 'PUT', headers: headers }
+        'update': { method: 'PUT',    headers: headers }
     };
 }
 
@@ -17,32 +18,25 @@ angular.module("app.data", ["ngResource"])
         $httpProvider.defaults.useXDomain = true;
     })
     .factory("ClassUnit", function ($resource) {
-        // var headers = { 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') };
-        // var actions = getActions(headers);
-
         return $resource(serverurl + '/api/classunits/:Id',
              { Id: '@ClassUnitID' },
-             getActions({ 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') }));
-            //  actions);
+            getActions());
     })
-    // .factory("ClassUnit", function ($resource) {
-    //     return $resource(
-    //         serverurl + "/api/classunits/:Id",
-    //         { Id: "@ClassUnitID" },
-    //         {
-    //             update: { method: "PUT" },
-    //             query: { method: 'GET', isArray: true, cancellable: true },
-    //             get: { method: 'GET', isArray: true, cancellable: true }
-    //         }
-    //     );
-    // })
+    .factory("Subject", function ($resource) {
+        return $resource(serverurl + '/api/subjects/:Id',
+             { Id: '@SubjectID' },
+            getActions());
+    })
+    .factory("Lesson", function ($resource) {
+        return $resource(serverurl + '/api/lessons/:Id',
+             { Id: '@LessonID' },
+            getActions());
+    })
     .factory("Student", function ($resource) {
-        return $resource(
-            serverurl + "/api/students/:Id",
+        return $resource(serverurl + "/api/students/:Id",
             { Id: "@Id" },
-            { update: { method: "PUT" },
-            }
-        );
+            getActions());
+            //  getActions({ 'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') }));
     })
     .factory('Identity', function($state, $rootScope) {
         var svc = {

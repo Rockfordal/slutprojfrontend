@@ -14,11 +14,16 @@
             this.menus = [
                 {
                     name:  "Studenter",
-                    state: "students"
+                    state: "students",
+                    // guest: true
                 },
                 {
                     name:  "Klasser",
                     state: "classunits",
+                },
+                {
+                    name:  "Schema",
+                    state: "schema",
                 },
             ];
         }

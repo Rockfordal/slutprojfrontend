@@ -21,7 +21,27 @@
       } ];
 
     angular.module("app")
-    .config(function($stateProvider) {
+    .config(function($stateProvider, $urlRouterProvider) {
+        var homeState = {
+            name: 'home',
+            url: '/',
+            component: 'homeIndex',
+        }
+        var loginState = {
+            name: 'login',
+            url: '/login',
+            component: 'loginIndex',
+        }
+        var logoutState = {
+            name: 'logout',
+            url: '/logout',
+            component: 'logoutIndex',
+        }
+        var registerState = {
+            name: 'register',
+            url: '/register',
+            component: 'registerIndex',
+        }
         var studentState = {
             name: 'students',
             url: '/students',
@@ -44,21 +64,21 @@
                 }
             }
         }
-        var loginState = {
-            name: 'login',
-            url: '/login',
-            component: 'loginIndex',
+        var schemaState = {
+            name: 'schema',
+            url: '/schema',
+            component: 'schemaIndex',
+            resolve: {
+                subjects: function(Subject) {
+                    return Subject.query();
+                },
+                lessons: function(Lesson) {
+                    return Lesson.query();
+                }
+            }
         }
-        var logoutState = {
-            name: 'logout',
-            url: '/logout',
-            component: 'logoutIndex',
-        }
-        var registerState = {
-            name: 'register',
-            url: '/register',
-            component: 'registerIndex',
-        }
+
+    $stateProvider.state(homeState);
 
     $stateProvider.state(loginState);
     $stateProvider.state(logoutState);
@@ -66,6 +86,8 @@
 
     $stateProvider.state(studentState);
     $stateProvider.state(classUnitState);
+    $stateProvider.state(schemaState);
+    $urlRouterProvider.otherwise('/');
     }); 
 
 })();
