@@ -40,15 +40,13 @@ angular.module("app")
             $scope.userRegistrationEmail = "";
             $scope.userRegistrationPassword = "";
             $scope.userRegistrationConfirmPassword = "";
+            window.location.href = '/'; //$state.go('home')
+            
         }, function (err) {
             $scope.responseData = "Error " + err.status;
             // angular.ForEach
             console.log("Error: ", err.data.ModelState);
         });
-    };
-
-    $scope.redirect = function () {
-        window.location.href = '/Employee/Index';
     };
 
     $scope.setusername = function(userName) {
