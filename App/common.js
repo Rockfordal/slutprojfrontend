@@ -1,7 +1,4 @@
 angular.module("app.common", [])
-    .component("homeIndex", {
-        template: "<h1>Hem</h1>"
-    })
     .service("Common",  function() {
         this.AddEntity = AddEntity
     }
